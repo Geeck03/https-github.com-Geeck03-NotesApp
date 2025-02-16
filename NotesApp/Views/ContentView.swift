@@ -14,6 +14,8 @@ struct ContentView: View {
         NavigationView {
             NoteListView()
                 .navigationTitle("Notes")
+                .shadow(color: .pink, radius: 6, x: 2, y: 2)
+
         }
     }
 }

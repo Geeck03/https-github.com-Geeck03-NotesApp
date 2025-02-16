@@ -23,15 +23,31 @@ struct AddNoteView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var noteTitle : String = ""
+    //@State private var fullText: String = " "
+    @State private var details : String = ""
     @State private var errorMessage: String? = nil
+    
+    
+    
+    //@Binding var isPresentingAddTaskView: Bool
+    //@Binding var isPresentingEditTaskView: Bool
     
     
     
     var body: some View {
         VStack {
-            Text("Enter Note")
-                .font(.headline)
             ReusableInputView(placeholder: "Note title", text: $noteTitle)
+                .shadow(color: .purple.opacity(0.3), radius: 5, x: 2, y: 2)
+            
+            ReusableDetailsView(fullText: $details)
+                .background(Color(.systemPink).opacity(0.2))
+                .cornerRadius(16)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.purple, lineWidth: 2)
+                )
+                .shadow(color: .purple.opacity(0.3), radius: 5, x: 2, y: 2)
+                .padding()
             
             if let errorMessage = errorMessage {
                 Text(errorMessage)
@@ -43,8 +59,8 @@ struct AddNoteView: View {
                 if noteTitle.isEmpty{
                     errorMessage = "Note is empty"
                 } else {
-                    noteViewModel.addNote(title: noteTitle)
-                    //Turns off the file 
+                    noteViewModel.addNote(title: noteTitle, details: details)
+                    //Turns off the file
                     dismiss()
                 }
                 
@@ -58,9 +74,11 @@ struct AddNoteView: View {
  We are creating a reusable input view
  
  */
+
 struct ReusableInputView: View {
     let placeholder: String
     @Binding var text: String
+
     
     var body: some View {
         TextField(placeholder, text: $text)
@@ -72,7 +90,19 @@ struct ReusableInputView: View {
     
 }
 
+struct ReusableDetailsView: View {
+    @Binding var fullText: String
+    
+    var body: some View {
+        TextEditor(text: $fullText)
+            //.font(.system(size: 30))
+            //.padding()
+            .foregroundColor(Color.gray)
+            .font(.custom("HelveticaNeue", size: 13))
+    }
+    
+}
 
 #Preview {
-    AddNoteView()
+    AddNoteView(isPresentingAddTaskView: .constant(false), isPresentingEditTaskView: .constant(true))
 }

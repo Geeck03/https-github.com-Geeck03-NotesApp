@@ -25,7 +25,7 @@ class NoteViewModel: ObservableObject {
     @Published var notes: [Note] = [] {
         didSet {
             //idk what to put here in the thingy
-            saveNotes(Note)
+            saveNotes(notes)
         }
     }
     
@@ -44,12 +44,11 @@ class NoteViewModel: ObservableObject {
     
     
     //Creates a new not if not empty?? Will append a new note if Title is not empty.
-    func addNote(title: String, detail : String) {
+    func addNote(title: String, details : String) {
         //Makes sure the title is not empty.
         
-        let newNote = Note()
-        //guard !title.isEmpty else { return }
-        //let newNote = Note(title: title, detail: detail)
+        guard !title.isEmpty else { return }
+        let newNote = Note(title: title, details: details)
         notes.append(newNote)
         
     }
@@ -77,7 +76,7 @@ class NoteViewModel: ObservableObject {
         notes.remove(atOffsets: offsets)
     }
     
-    func saveNotes(_ notesData: Note) {
+    func saveNotes(_ notesData: [Note]) {
         do {
             let encoder = JSONEncoder()
             let data = try encoder.encode(notesData)
@@ -86,25 +85,40 @@ class NoteViewModel: ObservableObject {
             let url = FileManager.default.urls(for: .documentDirectory, in:
                     .userDomainMask).first!.appendingPathComponent("notesData.json")
             try data.write(to: url)
-            self.notesData = notesData
+
+            //!
+            //self.notes = notesData
         }
         catch {
             print("error saving")
         }
     }
     
+    /*
+     
+     The notes array is empty when the app starts. This decodes the data saved in memory and uploads it into the notes array.
+     */
     func loadNotes() {
+        
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Error: Unable to find document directory")
+            return
+        }
+        
+        let url = documentDirectory.appendingPathComponent("notesData.json")
+        
+        
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            print("No saved notes here")
+            return
+        }
         do {
             
             //this access the file path for loading
-            let url = FileManager.default.urls(for: .documentDirectory, in:
-                    .userDomainMask).first!.appendingPathComponent("notesData.json")
             let data = try Data(contentsOf: url)
-            
             let decoder = JSONDecoder()
-            
-            let notesData = try decoder.decode(Note.self, from: data)
-            self.notesData = notesData
+            let notesData = try decoder.decode([Note].self, from: data)
+            self.notes = notesData
         }
         
         catch {
