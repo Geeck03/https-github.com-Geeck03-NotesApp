@@ -15,9 +15,9 @@ import Foundation
  
  
  */
-class NotViewModel: ObservableObject {
+class NoteViewModel: ObservableObject {
     
-    //We want to start with an empty array.
+    //We want to start with an empty array. This access the array from the NotesAppApp
     @Published var notes: [Note] = []
     
     

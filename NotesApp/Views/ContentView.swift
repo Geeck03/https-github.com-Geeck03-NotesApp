@@ -1,6 +1,8 @@
 //
 //  ContentView.swift
 //  NotesApp
+
+//Tutorial complete
 //
 //  Created by Sewell, Aramaea on 2/13/25.
 //
@@ -9,16 +11,14 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            NoteListView()
+                .navigationTitle("Notes")
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(NoteViewModel())
 }

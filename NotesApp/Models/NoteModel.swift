@@ -30,10 +30,12 @@ class Note: Identifiable {
     var title: String
     //Tracks completion Status 
     var isCompleted: Bool
+    var details: String
     
     //This intializes the NoteOBject with this information.
-    init(title: String, isCompleted: Bool = false) {
+    init(title: String, isCompleted: Bool = false, details: String = "None") {
         self.title = title
         self.isCompleted = isCompleted
+        self.details = details
     }
 }
