@@ -21,11 +21,13 @@ import Foundation
  
  */
 
-//Class has an ID is a constant.
-class Note: Identifiable {
+//The bite us now a struct
+struct Note: Identifiable, Codable {
     
     //Assigns a unique identifer to each instance of the class. Generates a random unique value
-    let id = UUID()
+    
+    //!was let
+    var id = UUID()
     //Text user can change
     var title: String
     //Tracks completion Status 
@@ -33,7 +35,7 @@ class Note: Identifiable {
     var details: String
     
     //This intializes the NoteOBject with this information.
-    init(title: String, isCompleted: Bool = false, details: String = "None") {
+    init(title: String = "title", isCompleted: Bool = false, details: String = "") {
         self.title = title
         self.isCompleted = isCompleted
         self.details = details
