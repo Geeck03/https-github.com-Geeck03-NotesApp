@@ -25,7 +25,11 @@ struct AddNoteView: View {
     @State private var noteTitle : String = ""
     //@State private var fullText: String = " "
     @State private var details : String = ""
+    
+    @State private var isEditing: Bool = false
     @State private var errorMessage: String? = nil
+    
+    var noteToEdit: Note?
     
     
     
@@ -36,45 +40,99 @@ struct AddNoteView: View {
     
     var body: some View {
         VStack {
-            ReusableInputView(placeholder: "Note title", text: $noteTitle)
-                .shadow(color: .purple.opacity(0.3), radius: 5, x: 2, y: 2)
-            
-            ReusableDetailsView(fullText: $details)
-                .background(Color(.systemPink).opacity(0.2))
-                .cornerRadius(16)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.purple, lineWidth: 2)
-                )
-                .shadow(color: .purple.opacity(0.3), radius: 5, x: 2, y: 2)
-                .padding()
-            
-            if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .font(.caption)
-            }
-            
-            Button("Add") {
-                if noteTitle.isEmpty{
-                    errorMessage = "Note is empty"
-                } else {
-                    noteViewModel.addNote(title: noteTitle, details: details)
-                    //Turns off the file
-                    dismiss()
+            Form {
+                Section(header: Text("Note Title")) {
+                    TextField("Enter Title", text: $noteTitle)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
+                Section(header: Text("Note details")) {
+                    TextEditor(text: $details)
+                        .frame(height: 150)
+                        .border(Color.gray, width: 1)
+                }
+                .onAppear {
+                    if let note = noteToEdit {
+                        isEditing = true
+                        noteTitle = note.title
+                        details = note.details
+                    }
+                }
+                
+                
+                HStack {
+                    Spacer()
+                    Button(action: saveNote) {
+                        Text(isEditing ? "Update Note" : "Save Note")
+                            .padding()
+                            .background(Color.pink)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                
+                    Spacer()
+                }
+                .padding()
             }
         }
     }
+        
+        func saveNote() {
+            if isEditing {
+                if let note = noteToEdit {
+                    noteViewModel.updateNote(note: note, title: noteTitle, details: details)
+                }
+            }
+            else {
+                noteViewModel.addNote(title: noteTitle, details: details)
+            }
+            dismiss()
+        }
+        
+        
+        
+        
+        /*
+         ReusableInputView(placeholder: "Note title", text: $noteTitle)
+         .shadow(color: .purple.opacity(0.3), radius: 5, x: 2, y: 2)
+         
+         ReusableDetailsView(fullText: $details)
+         .background(Color(.systemPink).opacity(0.2))
+         .cornerRadius(16)
+         .overlay(
+         RoundedRectangle(cornerRadius: 16)
+         .stroke(Color.purple, lineWidth: 2)
+         )
+         .shadow(color: .purple.opacity(0.3), radius: 5, x: 2, y: 2)
+         .padding()
+         */
+        /*
+         
+         if let errorMessage = errorMessage {
+         Text(errorMessage)
+         .foregroundColor(.red)
+         .font(.caption)
+         }
+         
+         
+         Button("Add") {
+         if noteTitle.isEmpty{
+         errorMessage = "Note is empty"
+         } else {
+         noteViewModel.addNote(title: noteTitle, details: details)
+         //Turns off the file
+         dismiss()
+         }
+         */
 }
+
 
 //Create input field
 /*
  We are creating a reusable input view
  
  */
-
+/*
 struct ReusableInputView: View {
     let placeholder: String
     @Binding var text: String
@@ -102,6 +160,7 @@ struct ReusableDetailsView: View {
     }
     
 }
+ */
 
 #Preview {
     AddNoteView()

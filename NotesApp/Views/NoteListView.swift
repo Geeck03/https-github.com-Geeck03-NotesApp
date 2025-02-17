@@ -60,6 +60,18 @@ struct DetailView: View {
             HStack {
                 Text("Note Details")
                     .font(.largeTitle)
+                    .padding()
+                Button("Edit Note") {
+                    isPresentingEditTaskView = true
+                }
+                .padding()
+                .background(Color.pink)
+                .foregroundColor(.white)
+                .cornerRadius(5)
+                .padding()
+                .sheet(isPresented: $isPresentingEditTaskView) {
+                    AddNoteView(noteToEdit: note) //Place holder. We want the text field for the notes
+                }
             }
             .frame(maxWidth: .infinity, alignment: .topLeading)
             .padding(4)
@@ -89,15 +101,7 @@ struct DetailView: View {
          }
          .padding(20)
          */
-        
-
-        Button("Edit Note") {
-            isPresentingEditTaskView = true
-        }
-            .padding()
-            .sheet(isPresented: $isPresentingEditTaskView) {
-                AddNoteView() //Place holder. We want the text field for the notes
-            }
+    
         
         
         Spacer()
@@ -112,9 +116,6 @@ struct DetailView: View {
                 .cornerRadius(10)
         }
         
-        //NavigationLink(destination: DetailView(noteViewModel: <#NoteViewModel#>, note: note)) {
-        //Text(note.details)
-        //.frame(maxWidth: .infinity, alignment: .leading)
     }
 }
     
@@ -168,15 +169,7 @@ struct NoteRowView: View {
     }
 }
 
-/*
-#Preview {
-    /*
-    DetailView(noteViewModel: <#NoteViewModel#>, note: Note(title: "Title", isCompleted: true, details: "Theres are the details"))
-     */
-    DetailView(noteViewModel: <#NoteViewModel#>, note: Note(title: "Title", details: "Theres are the details"))
-        
-}
- */
+
 
 #Preview {
     NoteListView()
