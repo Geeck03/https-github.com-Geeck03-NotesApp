@@ -104,5 +104,5 @@ struct ReusableDetailsView: View {
 }
 
 #Preview {
-    AddNoteView(isPresentingAddTaskView: .constant(false), isPresentingEditTaskView: .constant(true))
+    AddNoteView()
 }

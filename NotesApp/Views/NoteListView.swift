@@ -12,7 +12,6 @@ struct NoteListView: View {
     
     @EnvironmentObject var noteViewModel: NoteViewModel
     @State private var isPresentingAddTaskView: Bool = false
-    @State private var isPresentingEditTaskView: Bool = false
     
     
     
@@ -47,7 +46,7 @@ struct NoteListView: View {
 struct DetailView: View {
     //@Binding var isPresentingEditTaskView: Bool
     @EnvironmentObject var noteViewModel: NoteViewModel
-    @Binding var isPresentingEditTaskView: Bool
+    @State var isPresentingEditTaskView: Bool = false
     @State var change = false
     //Needed to change to make sure it's consistent
 
@@ -91,7 +90,7 @@ struct DetailView: View {
          .padding(20)
          */
         
-        
+
         Button("Edit Note") {
             isPresentingEditTaskView = true
         }
@@ -99,6 +98,8 @@ struct DetailView: View {
             .sheet(isPresented: $isPresentingEditTaskView) {
                 AddNoteView() //Place holder. We want the text field for the notes
             }
+        
+        
         Spacer()
         
         Button(action : {
@@ -125,7 +126,7 @@ struct NoteRowView: View {
     //We are creating a reference to a note object
     var note: Note
     //Track whether circle has been clicked.
-    @Binding var isPresentingEditTaskView: Bool
+    //@Binding var isPresentingEditTaskView: Bool
     
     
     
@@ -154,7 +155,7 @@ struct NoteRowView: View {
                  */
             }
             
-            NavigationLink(destination: DetailView(note: note, isPresentingEditTaskView: false)) {
+            NavigationLink(destination: DetailView(note: note)) {
                 Text(note.details)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
