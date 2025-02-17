@@ -44,12 +44,13 @@ struct AddNoteView: View {
                 Section(header: Text("Note Title")) {
                     TextField("Enter Title", text: $noteTitle)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
                 }
                 
                 Section(header: Text("Note details")) {
                     TextEditor(text: $details)
                         .frame(height: 150)
-                        .border(Color.gray, width: 1)
+                        .border(Color.pink, width: 1)
                 }
                 .onAppear {
                     if let note = noteToEdit {
@@ -60,6 +61,7 @@ struct AddNoteView: View {
                 }
                 
                 
+                
                 HStack {
                     Spacer()
                     Button(action: saveNote) {
@@ -68,6 +70,7 @@ struct AddNoteView: View {
                             .background(Color.pink)
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .shadow(color: .pink, radius: 6, x: 2, y: 2)
                     }
                 
                     Spacer()

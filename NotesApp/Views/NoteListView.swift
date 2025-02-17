@@ -34,6 +34,10 @@ struct NoteListView: View {
                     isPresentingAddTaskView = true
                 }
                 .padding()
+                .background(Color.pink)
+                .foregroundColor(.white)
+                .cornerRadius(5)
+                .shadow(color: .pink, radius: 5, x: 2, y: 2)
                 .sheet(isPresented: $isPresentingAddTaskView) {
                     AddNoteView() //Place holder. We want the text field for the notes
                 }
@@ -64,10 +68,10 @@ struct DetailView: View {
                 Button("Edit Note") {
                     isPresentingEditTaskView = true
                 }
-                .padding()
+                .padding(7)
                 .background(Color.pink)
                 .foregroundColor(.white)
-                .cornerRadius(5)
+                .cornerRadius(4)
                 .padding()
                 .sheet(isPresented: $isPresentingEditTaskView) {
                     AddNoteView(noteToEdit: note) //Place holder. We want the text field for the notes
@@ -87,22 +91,6 @@ struct DetailView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .font(.system(size: 18))
         //.frame(maxWidth: .infinity, alignment: .leading)
-        
-        
-        //if change is == true {
-        
-        /*
-         .strikethrough(change, color: .gray)
-         Image(systemName: change ? "checkmark.circle.fill" : "circle")
-         .foregroundColor(change ? .green : .gray)
-         .onTapGesture {
-         change.toggle()
-         print(change)
-         }
-         .padding(20)
-         */
-    
-        
         
         Spacer()
         
@@ -140,20 +128,6 @@ struct NoteRowView: View {
                     .font(.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
-                 
-                //if change is = true then strikethrough occurs
-                
-                /*.strikethrough(change, color: .gray)
-                 Spacer()
-                 Image(systemName: change ? "checkmark.circle.fill" : "circle")
-                 .foregroundColor(change ? .green : .gray)
-                 .onTapGesture {
-                 change.toggle()
-                 print(change)
-                 }
-                 }
-                 .padding(20)
-                 */
             }
             
             NavigationLink(destination: DetailView(note: note)) {
@@ -180,7 +154,7 @@ struct NoteRowView: View {
 #Preview {
     //We have to intalize a class to show them.
     //NoteRowView(note: Note(title: "Still in works"))
-    NoteRowView(note: Note(title: "PRACITCE", details: "Cat's are so cool Y'all like you do n't event"))
+    NoteRowView(note: Note(title: "PRACITCE", details: "Cats!"))
         //.environmentObject(NoteViewModel())
 }
 
